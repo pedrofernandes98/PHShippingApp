@@ -10,12 +10,12 @@ namespace PHShippingApp.Application.Services
 {
     public class ShippingOrderService : IShippingOrderService
     {
-        protected readonly IShippingOrderRepository _repository;
+        //protected readonly IShippingOrderRepository _repository;
 
-        public ShippingOrderService(IShippingOrderRepository repository)
-        {
-            _repository = repository;
-        }
+        //public ShippingOrderService(IShippingOrderRepository repository)
+        //{
+        //    _repository = repository;
+        //}
 
         public Task<string> Add(AddShippingOrderInputModel addShippingOrderInputModel)
         {
@@ -28,7 +28,7 @@ namespace PHShippingApp.Application.Services
             Console.WriteLine(JsonSerializer.Serialize(shippingOrderEntity));
 
             return Task.FromResult(shippingOrderEntity.TranckingCode);
-        }
+         }
 
         public Task<ShippingOrderViewModel> GetByCode(string trackingCode)
         {
