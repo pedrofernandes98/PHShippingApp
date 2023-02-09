@@ -1,24 +1,26 @@
 ﻿using PHShippingApp.Application.Services.Interfaces;
 using PHShippingApp.Application.ViewModels;
 using PHShippingApp.Domain.Entities;
+using PHShippingApp.Domain.Interfaces.Repositories;
 
 namespace PHShippingApp.Application.Services
 {
     public class ShippingServiceService : IShippingServiceService
     {
-        public Task<List<ShippingServiceViewModel>> GetAll()
-        {
-            var shippingServices = new List<ShippingService> {
-                new ShippingService("Selo", 0, 1.2m),
-                new ShippingService("Envio com Registro", 2.2m, 5),
-                new ShippingService("Envio sem Registro", 1, 3)
-            };
+        private readonly IShippingServiceRepository _repository;
 
-            return Task.FromResult(
-                shippingServices
+        public ShippingServiceService(IShippingServiceRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public async Task<List<ShippingServiceViewModel>> GetAll()
+        {
+            var shippingServices = await _repository.GetAllServicesAsync();
+
+            return shippingServices
                     .Select(s => new ShippingServiceViewModel(s.Id, s.Title, s.PricePerKg, s.FixedPrice))
-                    .ToList()
-            );
+                    .ToList();
         }
     }
 }

@@ -10,14 +10,14 @@ namespace PHShippingApp.Application.Services
 {
     public class ShippingOrderService : IShippingOrderService
     {
-        //protected readonly IShippingOrderRepository _repository;
+        protected readonly IShippingOrderRepository _repository;
 
-        //public ShippingOrderService(IShippingOrderRepository repository)
-        //{
-        //    _repository = repository;
-        //}
+        public ShippingOrderService(IShippingOrderRepository repository)
+        {
+            _repository = repository;
+        }
 
-        public Task<string> Add(AddShippingOrderInputModel addShippingOrderInputModel)
+        public async Task<string> Add(AddShippingOrderInputModel addShippingOrderInputModel)
         {
             var shippingOrderEntity = addShippingOrderInputModel.ToEntity();
 
@@ -25,20 +25,16 @@ namespace PHShippingApp.Application.Services
 
             shippingOrderEntity.SetupServices(shippingServicesEntity);
 
-            Console.WriteLine(JsonSerializer.Serialize(shippingOrderEntity));
+            await _repository.AddAsync(shippingOrderEntity);
 
-            return Task.FromResult(shippingOrderEntity.TranckingCode);
+            return shippingOrderEntity.TranckingCode;
          }
 
-        public Task<ShippingOrderViewModel> GetByCode(string trackingCode)
+        public async Task<ShippingOrderViewModel> GetByCode(string trackingCode)
         {
-            var shippingOrder = new ShippingOrder(
-                "Pedido 1",
-                1.3m,
-                new DeliveryAddress("Rua A", "1A", "12345-678", "São Paulo", "SP", "Brasil")
-            );
+            var shippingOrder = await _repository.GetByCodeAsync(trackingCode);
 
-            return Task.FromResult(ShippingOrderViewModel.GetFromEntity(shippingOrder));
+            return ShippingOrderViewModel.GetFromEntity(shippingOrder);
         }
     }
 }
