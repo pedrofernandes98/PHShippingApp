@@ -47,8 +47,6 @@ namespace PHShippingApp.Infra
 
             services.AddTransient(sp =>
             {
-                //BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
-
                 BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
 
                 var options = sp.GetService<MongoDbOptions>();
