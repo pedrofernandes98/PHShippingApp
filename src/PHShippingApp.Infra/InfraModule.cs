@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using PHShippingApp.Domain.Interfaces.Repositories;
 using PHShippingApp.Infra.Persistence.Repositories;
@@ -42,8 +45,12 @@ namespace PHShippingApp.Infra
                 return mongoClient;
             });
 
-            services.AddTransient<IMongoDatabase>(sp =>
+            services.AddTransient(sp =>
             {
+                //BsonDefaults.GuidRepresentation = GuidRepresentation.Standard;
+
+                BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
+
                 var options = sp.GetService<MongoDbOptions>();
                 var mongoClient = sp.GetService<IMongoClient>();
 

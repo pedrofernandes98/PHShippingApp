@@ -11,7 +11,7 @@ namespace PHShippingApp.Infra.Persistence.Repositories
 
         public ShippingServiceRepository(IMongoDatabase db)
         {
-            _collection = db.GetCollection<ShippingService>("shipping-services");
+            _collection = db.GetCollection<ShippingService>("services");
         }
 
         public async Task<List<ShippingService>> GetAllServicesAsync()

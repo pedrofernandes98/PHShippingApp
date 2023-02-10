@@ -1,4 +1,7 @@
-﻿namespace PHShippingApp.Domain.Entities
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
+
+namespace PHShippingApp.Domain.Entities
 {
     public abstract class BaseEntity
     {

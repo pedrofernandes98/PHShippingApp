@@ -16,7 +16,7 @@ namespace PHShippingApp.Infra
 
         public DbSeed(IMongoDatabase db)
         {
-            _collection = db.GetCollection<ShippingService>("shipping-services");
+            _collection = db.GetCollection<ShippingService>("services");
         }
 
         public void Populate()
